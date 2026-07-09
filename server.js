@@ -113,6 +113,20 @@ function updateAllPlayers(actionLog = "") {
             mostrarBotoneraUno: alguienTieneUnaCartaGlobal 
         });
     });
+
+    const gameState = {
+    hand: player.hand,
+    topCard: discardPile[discardPile.length - 1],
+    isMyTurn: player.id === players[turnIndex].id,
+    currentTurnName: players[turnIndex].name, // Nombre del jugador activo
+    players: players.map(p => ({
+        name: p.name,
+        isTurn: p.id === players[turnIndex].id,
+        cardCount: p.hand.length
+    })),
+    mostrarBotoneraUno: forzarOcultarBotonera
+    };
+    socket.emit('gameState', gameState);
 }
 
 function broadcast(type, data) {
